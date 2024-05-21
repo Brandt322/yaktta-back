@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    image: openjdk:17-jdk-slim
+    container_name: springboot_yaktta_app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost/${MYSQL_DATABASE}
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ./mvnw spring-boot:run
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:
