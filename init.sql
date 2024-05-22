@@ -26,12 +26,13 @@ CREATE TABLE IF NOT EXISTS brands (
 -- Crear la tabla PRODUCT
 CREATE TABLE IF NOT EXISTS product (
     id_product INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100),
-    description TEXT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
     stock INT,
     price DECIMAL(10, 2),
     discount DECIMAL(5, 2),
-    product_type VARCHAR(100),
+    product_type VARCHAR(100) NOT NULL,
+    image LONGBLOB,
     id_brands INT,
     FOREIGN KEY (id_brands) REFERENCES brands(id_brands)
 );
