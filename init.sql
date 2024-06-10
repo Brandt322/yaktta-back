@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Crear la tabla BRANDS
 CREATE TABLE IF NOT EXISTS brands (
     id_brands INT PRIMARY KEY AUTO_INCREMENT,
-    brand_name VARCHAR(50)
+    brand_name VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Crear la tabla PRODUCT

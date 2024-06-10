@@ -11,6 +11,6 @@ public interface ProductService {
     List<ProductResponse> findAll();
     Optional<ProductResponse> findById(Long id);
     ProductResponse save(ProductSaveRequest product);
-    Product edit(Long id);
-    Product delete(Long id);
+    ProductResponse edit(Long id, ProductSaveRequest productSaveRequest);
+    String delete(Long id);
 }

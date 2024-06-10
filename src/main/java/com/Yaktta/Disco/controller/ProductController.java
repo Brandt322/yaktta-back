@@ -24,7 +24,8 @@ public class ProductController {
     public List<ProductResponse> findAll(){
         return productService.findAll();
     }
-    @GetMapping("/products/{id}")
+
+    @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id){
         try{
             Optional<ProductResponse> product = productService.findById(id);
@@ -33,6 +34,7 @@ public class ProductController {
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping("/new-product")
     public ResponseEntity<Object> save(@RequestBody ProductSaveRequest product) {
         try{
@@ -43,4 +45,23 @@ public class ProductController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> edit(@PathVariable Long id, @RequestBody ProductSaveRequest productSaveRequest) {
+        try {
+            ProductResponse updatedProduct = productService.edit(id, productSaveRequest);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } catch (NotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        try {
+            String message = productService.delete(id);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch (NotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

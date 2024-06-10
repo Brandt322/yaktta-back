@@ -12,11 +12,8 @@ import lombok.Setter;
 @Setter
 public class ProductSaveRequest {
     private String name;
-    private double height;
-    private double width;
-    private String color;
     private String description;
-    private int quantity;
+    private int stock;
     private double price;
     private double discount;
     private String product_type;

@@ -8,12 +8,14 @@ import com.Yaktta.Disco.models.request.BrandSaveRequest;
 import com.Yaktta.Disco.models.response.BrandResponse;
 import com.Yaktta.Disco.repository.BrandRepository;
 import com.Yaktta.Disco.service.BrandService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
@@ -48,15 +50,42 @@ public class BrandServiceImpl implements BrandService {
             throw new BadRequestException("Brand cannot be null");
         }
 
+        // Comprueba si ya existe un Brand con el mismo nombre
+        Brand existingBrand = brandRepository.findByBrandName(brandSaveRequest.getBrandName());
+        if (existingBrand != null) {
+            throw new BadRequestException("Brand with name " + brandSaveRequest.getBrandName() + " already exists");
+        }
+
         Brand brand = brandMapper.mapBrandSaveRequestToEntity(brandSaveRequest);
         Brand saveBrand = brandRepository.save(brand);
         return brandMapper.mapBrandEntityToDTO(saveBrand);
     }
 
     @Override
-    public void delete(Long id) {
+    public BrandResponse edit(Long id, BrandSaveRequest brandSaveRequest) {
+        // Busca la marca existente por su id
+        Optional<Brand> existingBrandOpt = brandRepository.findById(id);
+        if (!existingBrandOpt.isPresent()) {
+            throw new NotFoundException("Brand not found with id: " + id);
+        }
 
+        // Actualiza las propiedades de la marca existente con los valores del BrandSaveRequest
+        Brand existingBrand = existingBrandOpt.get();
+        existingBrand.setBrandName(brandSaveRequest.getBrandName());
+
+        // Guarda la marca actualizada en la base de datos
+        Brand updatedBrand = brandRepository.save(existingBrand);
+
+        // Convierte la marca actualizada a BrandResponse y la devuelve
+        return brandMapper.mapBrandEntityToDTO(updatedBrand);
     }
 
+    @Override
+    public String delete(Long id) {
+        Brand existingBrand = brandRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Brand not found with id: " + id));
+        brandRepository.delete(existingBrand);
+        return "Brand deleted successfully";
+    }
 }
 

@@ -16,11 +16,20 @@ public class ProductMapper {
         this.modelMapper = modelMapper;
     }
     public ProductResponse mapProductEntityToDTO(Product product){
-        return modelMapper.map(product, ProductResponse.class);
+        ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
+        // Convierte los bytes de la imagen a una cadena base64
+        String imageBase64 = Base64.getEncoder().encodeToString(product.getImage());
+        // Establece la imagen en el ProductResponse
+        productResponse.setImage(imageBase64);
+        return productResponse;
     }
+
     public Product mapProductSaveRequestToEntity(ProductSaveRequest productSaveRequest){
-        return modelMapper.map(productSaveRequest, Product.class);
+        Product product = modelMapper.map(productSaveRequest, Product.class);
+        product.setId(null);
+        return product;
     }
+
     public byte[] stringToByteArray(String file) {
         if (file == null || file.isEmpty()) {
             return null;

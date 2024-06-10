@@ -19,6 +19,8 @@ public class BrandMapper {
     }
 
     public Brand mapBrandSaveRequestToEntity(BrandSaveRequest brandSaveRequest) {
-        return modelMapper.map(brandSaveRequest, Brand.class);
+        Brand brand = modelMapper.map(brandSaveRequest, Brand.class);
+        brand.setId(null);
+        return brand;
     }
 }

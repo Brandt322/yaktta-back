@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class BrandResponse {
     private Long id;
-    private String brand_name;
+    private String brandName;
 }

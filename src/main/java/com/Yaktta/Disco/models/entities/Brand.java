@@ -1,6 +1,8 @@
 package com.Yaktta.Disco.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,9 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String brand_name;
+    @Column(name = "brand_name", unique = true)
+    @NotBlank(message = "El nombre de la marca es requerido")
+    @NotNull(message = "El nombre de la marca es requerido")
+    private String brandName;
 
 }

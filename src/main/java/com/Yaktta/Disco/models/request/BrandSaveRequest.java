@@ -12,5 +12,5 @@ import lombok.Setter;
 @Setter
 public class BrandSaveRequest {
     @NotBlank(message = "Brand name is required")
-    private String brand_name;
+    private String brandName;
 }

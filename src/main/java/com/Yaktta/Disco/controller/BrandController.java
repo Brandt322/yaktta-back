@@ -45,4 +45,24 @@ public class BrandController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Object> edit(@PathVariable Long id, @RequestBody BrandSaveRequest brand) {
+        try {
+            BrandResponse brandResponse = brandService.edit(id, brand);
+            return new ResponseEntity<>(brandResponse, HttpStatus.OK);
+        } catch (NotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        try {
+            String response = brandService.delete(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (NotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BrandService {
-    public List<BrandResponse> findAll();
-    public Optional<BrandResponse> findById(Long id);
-    public BrandResponse save(BrandSaveRequest brand);
-    public void delete(Long id);
+    List<BrandResponse> findAll();
+    Optional<BrandResponse> findById(Long id);
+    BrandResponse save(BrandSaveRequest brand);
+    String delete(Long id);
+    BrandResponse edit(Long id,  BrandSaveRequest brandSaveRequest);
 }
