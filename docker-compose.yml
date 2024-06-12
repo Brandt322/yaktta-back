@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: ./mvn spring-boot:run
+    command: ./mvnw spring-boot:run
     ports:
       - "8080:8080"
     depends_on:
