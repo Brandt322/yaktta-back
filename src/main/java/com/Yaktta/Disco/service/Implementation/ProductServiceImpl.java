@@ -2,10 +2,12 @@ package com.Yaktta.Disco.service.Implementation;
 
 import com.Yaktta.Disco.exceptions.BadRequestException;
 import com.Yaktta.Disco.exceptions.NotFoundException;
+import com.Yaktta.Disco.models.entities.Brand;
 import com.Yaktta.Disco.models.entities.Product;
 import com.Yaktta.Disco.models.mapper.ProductMapper;
 import com.Yaktta.Disco.models.request.ProductSaveRequest;
 import com.Yaktta.Disco.models.response.ProductResponse;
+import com.Yaktta.Disco.repository.BrandRepository;
 import com.Yaktta.Disco.repository.ProductRepository;
 import com.Yaktta.Disco.service.ProductService;
 import jakarta.transaction.Transactional;
@@ -19,9 +21,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final BrandRepository brandRepository;
     private final ProductMapper productMapper;
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper){
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, BrandRepository brandRepository){
         this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
         this.productMapper = productMapper;
     }
 
@@ -59,6 +63,11 @@ public class ProductServiceImpl implements ProductService {
         // Crea el ProductResponse con la cadena base64 de la imagen
         ProductResponse productResponse = productMapper.mapProductEntityToDTO(saveProduct);
         productResponse.setImage(imageBase64);
+
+        // Busca la marca por su ID y establece el nombre de la marca en el ProductResponse
+        Brand brand = brandRepository.findById(productSaveRequest.getId_brands().getId())
+                .orElseThrow(() -> new NotFoundException("Brand not found with id: " + productSaveRequest.getId_brands().getId()));
+        productResponse.getId_brands().setBrandName(brand.getBrandName());
 
         return productResponse;
     }
