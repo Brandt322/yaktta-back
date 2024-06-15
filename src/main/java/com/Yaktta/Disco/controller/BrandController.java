@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("api/v1/brands")
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class BrandController {
     private final BrandServiceImpl brandService;

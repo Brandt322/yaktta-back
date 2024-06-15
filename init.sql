@@ -1,6 +1,6 @@
 -- Crear la tabla ROLES
 CREATE TABLE IF NOT EXISTS roles (
-    id_rol INT PRIMARY KEY,
+    id_rol INT PRIMARY KEY AUTO_INCREMENT,
     rol VARCHAR(100)
 );
 
@@ -12,8 +12,18 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100),
     city VARCHAR(100),
     postal_code VARCHAR(20),
-    password VARCHAR(50),
+    password VARCHAR(250),
+    is_account_non_expired BOOLEAN,
+    is_account_non_locked BOOLEAN,
+    is_credentials_non_expired BOOLEAN,
+    is_enabled BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS user_roles (
+    id_user INT,
     id_rol INT,
+    PRIMARY KEY (id_user, id_rol),
+    FOREIGN KEY (id_user) REFERENCES users(id_user),
     FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
 );
 
@@ -74,3 +84,12 @@ CREATE TABLE IF NOT EXISTS billing (
     FOREIGN KEY (id_client) REFERENCES users(id_user),
     FOREIGN KEY (id_payment_method) REFERENCES payment_method(id)
     );
+
+-- Insertar datos en la tabla BRANDS
+INSERT INTO brands (brand_name) VALUES ('Red Label');
+INSERT INTO brands (brand_name) VALUES ('Ruskaya');
+INSERT INTO brands (brand_name) VALUES ('Jhonny Walker');
+
+-- Insertar roles en la tabla ROLES
+INSERT INTO roles (rol) VALUES ('USER');
+INSERT INTO roles (rol) VALUES ('ADMIN');
