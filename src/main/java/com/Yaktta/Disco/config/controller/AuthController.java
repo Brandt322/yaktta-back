@@ -5,8 +5,10 @@ import com.Yaktta.Disco.config.models.JwtDto;
 import com.Yaktta.Disco.config.models.UserDetailsImpl;
 import com.Yaktta.Disco.models.entities.Role;
 import com.Yaktta.Disco.models.entities.User;
+import com.Yaktta.Disco.models.mapper.UserMapper;
 import com.Yaktta.Disco.models.request.LoginRequest;
 import com.Yaktta.Disco.models.request.RegisterRequest;
+import com.Yaktta.Disco.models.response.UserResponse;
 import com.Yaktta.Disco.repository.RoleRepository;
 import com.Yaktta.Disco.repository.UserRepository;
 import com.Yaktta.Disco.utils.Response;
@@ -34,20 +36,24 @@ public class AuthController {
     private final JWTProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserRepository userRepository, RoleRepository roleRepository,AuthenticationManager authenticationManager, JWTProvider jwtProvider, PasswordEncoder passwordEncoder) {
+    private final UserMapper userMapper;
+
+    public AuthController(UserRepository userRepository, RoleRepository roleRepository,AuthenticationManager authenticationManager, JWTProvider jwtProvider, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public User getUser() {
+    public UserResponse getUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetailsImpl) {
-            return ((UserDetailsImpl) auth.getPrincipal()).getUser();
+            User user = ((UserDetailsImpl) auth.getPrincipal()).getUser();
+            return userMapper.mapUserEntityToDTO(user);
         }
         return null;
     }
@@ -91,6 +97,33 @@ public class AuthController {
         userRepository.save(newUser);
 
         return new ResponseEntity<>(new Response(200, "Usuario registrado con éxito"), HttpStatus.OK);
+    }
+
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<?> registerAdmin(@Valid @RequestBody RegisterRequest registerRequest) {
+        if (userRepository.existsUserEntityByEmail(registerRequest.getUsername())) {
+            return new ResponseEntity<>(new Response(400, "El email ya está en uso"), HttpStatus.BAD_REQUEST);
+        }
+
+        // Crear nuevo objeto User
+        User newUser = new User();
+        newUser.setEmail(registerRequest.getUsername());
+        newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        newUser.setFirstName(registerRequest.getFirstname());
+        newUser.setLastName(registerRequest.getLastname());
+        newUser.setCity(registerRequest.getCity());
+        newUser.setAccountNonExpired(true);
+        newUser.setAccountNonLocked(true);
+        newUser.setCredentialsNonExpired(true);
+        newUser.setEnabled(true);
+
+        // Asignar rol ADMIN
+        Role adminRole = roleRepository.findByRol("ADMIN").orElseThrow(() -> new RuntimeException("Error: Rol no encontrado"));
+        newUser.setRoles(new ArrayList<>(Collections.singletonList(adminRole)));
+        // Guardar User en la base de datos
+        userRepository.save(newUser);
+
+        return new ResponseEntity<>(new Response(200, "Administrador registrado con éxito"), HttpStatus.OK);
     }
 
 }

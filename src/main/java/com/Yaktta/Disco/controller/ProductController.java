@@ -7,6 +7,7 @@ import com.Yaktta.Disco.models.response.ProductResponse;
 import com.Yaktta.Disco.service.Implementation.ProductServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/new-product")
     public ResponseEntity<Object> save(@RequestBody ProductSaveRequest product) {
         try{
@@ -45,6 +47,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Object> edit(@PathVariable Long id, @RequestBody ProductSaveRequest productSaveRequest) {
         try {
@@ -55,6 +58,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         try {
