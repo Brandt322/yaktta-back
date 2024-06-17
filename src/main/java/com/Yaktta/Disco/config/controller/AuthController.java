@@ -61,7 +61,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return new ResponseEntity(new Response(400, "campos mal puestos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Response(400, "El nombre de usuario y/o la contraseña no son válidos"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -7,6 +7,7 @@ import com.Yaktta.Disco.models.response.BrandResponse;
 import com.Yaktta.Disco.service.Implementation.BrandServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class BrandController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/new-brand")
     public ResponseEntity<Object> save(@RequestBody BrandSaveRequest brand) {
         try {
@@ -46,6 +48,7 @@ public class BrandController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/edit/{id}")
     public ResponseEntity<Object> edit(@PathVariable Long id, @RequestBody BrandSaveRequest brand) {
         try {
@@ -56,6 +59,7 @@ public class BrandController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         try {
