@@ -34,4 +34,3 @@ build/
 
 ### Miscelanous ###
 .env
-.env.prod
