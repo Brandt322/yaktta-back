@@ -24,6 +24,7 @@ public class Product {
     private int stock;
     private double price;
     private double discount;
+    private boolean state;
     @NotBlank(message = "El tipo de producto es requerido")
     private String product_type;
     @Lob
