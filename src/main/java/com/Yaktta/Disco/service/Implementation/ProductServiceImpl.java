@@ -98,6 +98,11 @@ public class ProductServiceImpl implements ProductService {
         // Establece la imagen en el ProductResponse
         productResponse.setImage(imageBase64);
 
+        // Busca la marca por su ID y establece el nombre de la marca en el ProductResponse
+        Brand brand = brandRepository.findById(productSaveRequest.getId_brands().getId())
+                .orElseThrow(() -> new NotFoundException("Brand not found with id: " + productSaveRequest.getId_brands().getId()));
+        productResponse.getId_brands().setBrandName(brand.getBrandName());
+
         return productResponse;
     }
 

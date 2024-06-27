@@ -96,7 +96,7 @@ INSERT INTO roles (rol) VALUES ('ADMIN');
 
 -- Insertar un usuario en la tabla USERS
 INSERT INTO users (first_name, last_name, email, city, postal_code, password, is_account_non_expired, is_account_non_locked, is_credentials_non_expired, is_enabled)
-VALUES ('Admin', 'User', 'admin@example.com', 'Admin City', '12345', '$2a$12$cF0gjZp5KzjGr/L3FwDp3uK39tQVG97USJnMox54xeV1k1M7pscti', true, true, true, true);
+VALUES ('Admin', 'User', 'admin@example.com', 'Admin City', '12345', '$2a$12$i7or5zMmyCUXLjto4nDjWuW7S6M/91DKbP4UitV5ZoowjVFkRkRN2', true, true, true, true);
 
 -- Obtener el id_user del usuario que acabas de insertar
 SET @admin_user_id = (SELECT id_user FROM users WHERE email = 'admin@example.com');
