@@ -56,22 +56,22 @@ CREATE TABLE IF NOT EXISTS payment_method (
 
 -- Crear la tabla ORDERS
 CREATE TABLE IF NOT EXISTS orders (
-    id_orders INT PRIMARY KEY AUTO_INCREMENT,
+    id_order INT PRIMARY KEY AUTO_INCREMENT,
     client_id INT,
     order_date DATE,
-    product_names VARCHAR(500),
-    total_price DECIMAL(10, 2),
+    description VARCHAR(500),
+    amount DECIMAL(10, 2),
     FOREIGN KEY (client_id) REFERENCES users(id_user)
 );
 
 -- Crear la tabla ORDER_DETAIL
 CREATE TABLE IF NOT EXISTS order_detail (
-    id_order_product INT PRIMARY KEY AUTO_INCREMENT,
+    id_order_detail INT PRIMARY KEY AUTO_INCREMENT,
     id_order INT,
     id_product INT,
-    quantity_products_ordered INT,
+    quantity INT,
     total_price DECIMAL(10, 2),
-    FOREIGN KEY (id_order) REFERENCES orders(id_orders),
+    FOREIGN KEY (id_order) REFERENCES orders(id_order),
     FOREIGN KEY (id_product) REFERENCES product(id_product)
 );
 

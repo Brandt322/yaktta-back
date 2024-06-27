@@ -5,4 +5,5 @@ import com.Yaktta.Disco.models.response.UserResponse;
 
 public interface UserService {
     User getUserByUsername(String username);
+    User getUserById(Long id);
 }

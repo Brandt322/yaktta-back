@@ -34,4 +34,19 @@ public class UserServiceImpl implements UserService {
             throw new InternalServerError(e.getMessage());
         }
     }
+
+    @Override
+    public User getUserById(Long id) {
+        try {
+            Optional<User> optionalUser = userRepository.findById(id);
+            User user = optionalUser.orElseThrow(() -> new NotFoundException(Messages.USER_NOT_FOUND.getMessage()));
+            return user;
+        } catch (NotFoundException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            throw new InternalServerError(e.getMessage());
+        }
+    }
+
+
 }
