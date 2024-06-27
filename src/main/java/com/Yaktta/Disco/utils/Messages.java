@@ -8,6 +8,7 @@ public enum Messages {
   INVALID_DATA("Ingrese datos válidos"),
   ALREADY_REGISTERED("Los datos ingresados ya se encuentran registrados"),
   REPEATED_DATA("Los datos contienen valores duplicados"),
+  USER_NOT_FOUND("Usuario no encontrado"),
   USER_CREDENTIALS("El nombre de usuario y/o la contraseña no son válidos");
 
   private final String message;
