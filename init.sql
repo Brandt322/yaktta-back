@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS product (
     stock INT,
     price DECIMAL(10, 2),
     discount DECIMAL(5, 2),
+    state BOOLEAN,
     product_type VARCHAR(100) NOT NULL,
     image LONGBLOB,
     id_brands INT,

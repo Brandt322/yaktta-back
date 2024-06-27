@@ -55,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
         byte[] fileBytes = productMapper.stringToByteArray(productSaveRequest.getImage());
         Product product = productMapper.mapProductSaveRequestToEntity(productSaveRequest);
         product.setImage(fileBytes);
+        product.setState(product.getStock() >= 1);
         Product saveProduct = productRepository.save(product);
 
         // Convierte los bytes de la imagen a una cadena base64 para incluir en la respuesta
@@ -83,6 +84,7 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setDescription(productSaveRequest.getDescription());
         existingProduct.setPrice(productSaveRequest.getPrice());
         existingProduct.setStock(productSaveRequest.getStock());
+        existingProduct.setState(productSaveRequest.getStock() >= 1);
         existingProduct.setDiscount(productSaveRequest.getDiscount());
         existingProduct.setProduct_type(productSaveRequest.getProduct_type());
         existingProduct.setImage(productMapper.stringToByteArray(productSaveRequest.getImage()));

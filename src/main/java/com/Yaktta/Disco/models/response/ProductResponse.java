@@ -18,6 +18,7 @@ public class ProductResponse {
     private int stock;
     private double price;
     private double discount;
+    private boolean state;
     private String product_type;
     private String image;
     private Brand id_brands;
