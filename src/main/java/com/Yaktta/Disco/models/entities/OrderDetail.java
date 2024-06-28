@@ -1,4 +1,5 @@
 package com.Yaktta.Disco.models.entities;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "id_order")
+    @JsonBackReference
     private Order order;
 
     @ManyToOne
