@@ -72,10 +72,11 @@ public class PaymentService {
 
         // Crear la orden
         Order order = new Order();
-        order.setClient(client);
+        order.setClientId(client);
         order.setOrderDate(new Date());
         order.setDescription(paymentIntentDto.getDescription());
         order.setAmount(paymentIntentDto.getAmount());
+        order.setStatus(false);
         orderRepository.save(order);
 
         // Crear los detalles de la orden

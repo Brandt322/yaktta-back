@@ -1,5 +1,6 @@
 package com.Yaktta.Disco.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,14 +24,16 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private User client;
+    private User clientId;
 
     @Column(name = "order_date")
     private Date orderDate;
 
     private String description;
     private double amount;
+    private boolean status;
 
     @OneToMany(mappedBy = "order")
+    @JsonManagedReference
     private List<OrderDetail> orderDetails;
 }
