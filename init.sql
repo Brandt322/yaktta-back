@@ -48,12 +48,6 @@ CREATE TABLE IF NOT EXISTS product (
     FOREIGN KEY (id_brands) REFERENCES brands(id_brands)
 );
 
--- Crear la tabla PAYMENT_METHOD
-CREATE TABLE IF NOT EXISTS payment_method (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100)
-);
-
 -- Crear la tabla ORDERS
 CREATE TABLE IF NOT EXISTS orders (
     id_order INT PRIMARY KEY AUTO_INCREMENT,
@@ -61,6 +55,7 @@ CREATE TABLE IF NOT EXISTS orders (
     order_date DATE,
     description VARCHAR(500),
     amount DECIMAL(10, 2),
+    status BOOLEAN,
     FOREIGN KEY (client_id) REFERENCES users(id_user)
 );
 
@@ -74,17 +69,6 @@ CREATE TABLE IF NOT EXISTS order_detail (
     FOREIGN KEY (id_order) REFERENCES orders(id_order),
     FOREIGN KEY (id_product) REFERENCES product(id_product)
 );
-
--- Crear la tabla BILLING
-CREATE TABLE IF NOT EXISTS billing (
-    id_billing INT PRIMARY KEY AUTO_INCREMENT,
-    id_client INT,
-    payment_date DATE,
-    payment_amount DECIMAL(10, 2),
-    id_payment_method INT,
-    FOREIGN KEY (id_client) REFERENCES users(id_user),
-    FOREIGN KEY (id_payment_method) REFERENCES payment_method(id)
-    );
 
 -- Insertar datos en la tabla BRANDS
 INSERT INTO brands (brand_name) VALUES ('Red Label');

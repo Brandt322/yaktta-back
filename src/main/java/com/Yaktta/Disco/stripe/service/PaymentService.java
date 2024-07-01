@@ -76,6 +76,7 @@ public class PaymentService {
         order.setOrderDate(new Date());
         order.setDescription(paymentIntentDto.getDescription());
         order.setAmount(paymentIntentDto.getAmount());
+        order.setStatus(false);
         orderRepository.save(order);
 
         // Crear los detalles de la orden

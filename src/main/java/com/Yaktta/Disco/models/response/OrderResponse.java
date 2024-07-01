@@ -19,5 +19,6 @@ public class OrderResponse {
     private Date orderDate;
     private String description;
     private double amount;
+    private boolean status;
     private List<OrderDetail> orderDetails;
 }

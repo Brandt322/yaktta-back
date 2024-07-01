@@ -55,4 +55,15 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderMapper::mapOrderEntityToDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void updateOrderStatus(Long id, boolean status) {
+        Optional<Order> order = orderRepository.findById(id);
+        if (!order.isPresent()) {
+            throw new NotFoundException("Order not found with id: " + id);
+        }
+        Order existingOrder = order.get();
+        existingOrder.setStatus(status);
+        orderRepository.save(existingOrder);
+    }
 }

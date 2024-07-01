@@ -31,6 +31,7 @@ public class Order {
 
     private String description;
     private double amount;
+    private boolean status;
 
     @OneToMany(mappedBy = "order")
     @JsonManagedReference
