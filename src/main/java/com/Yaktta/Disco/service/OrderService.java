@@ -10,4 +10,5 @@ public interface OrderService {
     List<OrderResponse> findAll();
     Optional<OrderResponse> findById(Long id);
     List<OrderResponse> findByClientId(Long clientId);
+    void updateOrderStatus(Long id, boolean status);
 }
